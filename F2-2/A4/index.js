@@ -44,7 +44,6 @@ addBtn.addEventListener("click", function () {
   const inputValue = input.value.trim()
   addItem(inputValue);
   // 功能1：透過trim()防止產生空白 todo。
-  // 暫時移除優化部分
 });
 // 功能2：當使用者在 input#newTodo 裡按下 Enter 鍵時，可以新增 to-do。
 input.addEventListener("keypress", function (event) {
