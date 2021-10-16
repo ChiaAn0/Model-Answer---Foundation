@@ -8,8 +8,9 @@ html, body {
 
 * {
   box-sizing: border-box;
+  /* 設計稿上使用 Roboto，若此處要使用設計稿上的字型 Roboto 請記得引用 google font 的設定碼於 head 中。*/
+  font-family: 'Roboto', sans-serif;
 }
-
 
 .main {
   width: 300px;
@@ -33,7 +34,7 @@ html, body {
   left: 86px;
 }
 
-.notify{
+.notify {
   width: 30px;
   height: 30px;
   background-color: white;
@@ -42,10 +43,10 @@ html, body {
   /* position */
   position: absolute;
   right: 17px;
-  /* 修正建議: top 應該是 18 */
-  top: 17px;
+  top: 18px;
 }
-.notify-point{
+
+.notify-point {
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -54,38 +55,30 @@ html, body {
   /* position */
   position: absolute;
   right: 0;
-
 }
 
-.content{
+.content {
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: white;
   height: 300px;
   border-radius: 20px;
-  /* 修正建議: padding top 應該是 68 */
-  padding-top: 60px;
+  padding-top: 68px;
   /* position */
   position: absolute;
   bottom: 0;
-  
 }
 
-/* 修正建議: 既然定義了 name 跟 title 這兩個 class，就建議優先使用，一方面讓這兩個 class 具有實質意義，一方面也可以避免頁面中有其他元素需要使用 h1 h2 時互相影響格式 */
-/* 修正建議: 字形格式也需要相同，套用時需標註 sans-serif 才會呈現和設計稿相同的無襯線體，這部分設定 figma 上面沒有寫，建議作業說明中加入引導。*/
-h1{
-  font-size: 30px;
+.name {
   margin: 0 0 7px 0;
+  font-size: 30px;
   font-weight: 400;
-  
 }
 
-h2{
-  /* 修正建議: margin bottom 和 introduce 的 margin top 加起來應該是 20 px */
-  margin: 0 0 16px 0;
-  /* 修正建議: padding 應該是 3 8 3 10 */
-  padding: 3px 8px;
+.title {
+  margin: 0;
+  padding: 3px 8px 3px 10px;
   background: black;
   color: white;
   border-radius: 30px;
@@ -93,9 +86,8 @@ h2{
   font-weight: 400;
 }
 
-.introduce{
-  /* 修正建議: 左邊距應該是 34 px */
-  margin: 10px 35px 38px 35px;
+.introduce {
+  margin: 20px 35px 38px 34px;
   font-size: 14px;
   font-weight: 400;
   line-height: 16px;
