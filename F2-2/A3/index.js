@@ -21,24 +21,27 @@ const album = {
 }
 
 // WRITE YOUR CODE ////////////////////////
-//階段一
-//使用迴圈將歌名印出
+// 階段一
+// 使用迴圈將歌名印出
 let navHtml = ''
 for (const song of album.tracks) {
-  //使用Bootstrap的pills
   navHtml += `
       <li>
-        <a class="nav-link" data-toggle="pill" href="#" role="tab">${song}</a>
+        <a class="nav-link" href="#" role="tab">${song}</a>
       </li>`
 }
 songList.innerHTML = navHtml
 
-
-songList.addEventListener('click', (event) => {
+songList.addEventListener('click', event => {
+  const activeItem = document.querySelector('#song-list .active')
+  if (activeItem) {
+    activeItem.classList.remove('active')
+  }
   if (event.target.matches('.nav-link')) {
+    event.target.classList.add('active')
     const song = event.target.innerText
-    //點擊時向 axios 發出請求
-    axios.get(BASE_URL + `Adele/${song}.json`)
+    // 點擊時向 axios 發出請求
+    axios.get(`${BASE_URL}Adele/${song}.json`)
       .then(response => {
         const lyrics = response.data.lyrics
         lyricsPanel.innerHTML = `
@@ -50,15 +53,16 @@ songList.addEventListener('click', (event) => {
   }
 })
 
-//階段二：將每個功能透過函式包裝
+// // 階段二：將每個功能透過函式包裝
 // function displaySongList(album) {
 //   let navHtml = ''
-//   for (const song of album.tracks) {
+//   // 新增forEach用法
+//   album.tracks.forEach(song => {
 //     navHtml += `
 //       <li>
-//         <a class="nav-link" data-toggle="pill" href="#" role="tab">${song}</a>
+//         <a class="nav-link" href="#" role="tab">${song}</a>
 //       </li>`
-//   }
+//   });
 //   songList.innerHTML = navHtml
 // }
 
@@ -69,10 +73,50 @@ songList.addEventListener('click', (event) => {
 //   `
 // }
 
-// songList.addEventListener('click', (event) => {
+// songList.addEventListener('click', event => {
+//   const activeItem = document.querySelector('#song-list .active')
+//   if (activeItem) {
+//     activeItem.classList.remove('active')
+//   }
+//   if (event.target.matches('.nav-link')) {
+//     event.target.classList.add('active')
+//     const song = event.target.innerText
+//     axios.get(`${BASE_URL}Adele/${song}.json`)
+//       .then(response => {
+//         const lyrics = response.data.lyrics
+//         displayLyrics(song, lyrics)
+//       })
+//       .catch(error => console.log(error))
+//   }
+// })
+
+// displaySongList(album)
+
+// // 階段三：使用Bootstrap的Pills
+// function displaySongList(album) {
+//   let navHtml = ''
+//   // 新增 Bootstrap pills 用法
+//   // 查閱在 pills 同個頁面下方的 Using data attributes 小標題中的說明可以發現透過 data-toggle 可以很方便的讓被選取的項目呈現active的效果。
+//   album.tracks.forEach(song => {
+//     navHtml += `
+//       <li>
+//         <a class="nav-link" data-toggle="pill" href="#" role="tab">${song}</a>
+//       </li>`
+//   });
+//   songList.innerHTML = navHtml
+// }
+
+// function displayLyrics(song, lyrics) {
+//   lyricsPanel.innerHTML = `
+//     <h3>${song}</h3>
+//     <pre>${lyrics}</pre>
+//   `
+// }
+
+// songList.addEventListener('click', event => {
 //   if (event.target.matches('.nav-link')) {
 //     const song = event.target.innerText
-//     axios.get(BASE_URL + `Adele/${song}.json`)
+//     axios.get(`${BASE_URL}Adele/${song}.json`)
 //       .then(response => {
 //         const lyrics = response.data.lyrics
 //         displayLyrics(song, lyrics)

@@ -7,7 +7,7 @@ const addBtn = document.querySelector("#add-btn");
 const input = document.querySelector("#new-todo");
 
 // 資料
-let todos = [
+const todos = [
   "Hit the gym",
   "Read a book",
   "Buy eggs",
@@ -21,7 +21,8 @@ for (let todo of todos) {
 
 // 函式
 function addItem(text) {
-  let newItem = document.createElement("li");
+  if (!text.length) return
+  const newItem = document.createElement("li");
   newItem.innerHTML = `
     <label for="todo">${text}</label>
     <i class="delete fa fa-trash"></i>
@@ -30,7 +31,7 @@ function addItem(text) {
 }
 
 function addDoneItem(text) {
-  let newItem = document.createElement("li");
+  const newItem = document.createElement("li");
   newItem.innerHTML = `
     <label for="done" class="checked">${text}</label>
     <i class="delete fa fa-trash"></i>
@@ -40,31 +41,16 @@ function addDoneItem(text) {
 
 // Create
 addBtn.addEventListener("click", function () {
-  const inputValue = input.value;
-
+  const inputValue = input.value.trim()
+  addItem(inputValue);
   // 功能1：透過trim()防止產生空白 todo。
-  if (inputValue.trim().length > 0) {
-    addItem(inputValue);
-    // 優化使用者體驗：新增完成後清空輸入框
-    input.value = ''
-    // 優化使用者體驗：新增警告機制
-    input.classList.remove("is-invalid")
-  } else {
-    input.classList.add("is-invalid")
-  }
 });
 // 功能2：當使用者在 input#newTodo 裡按下 Enter 鍵時，可以新增 to-do。
 input.addEventListener("keypress", function (event) {
-  const inputValue = input.value;
+  const inputValue = input.value.trim()
 
   if (event.key === "Enter") {
-    if (inputValue.trim().length > 0) {
-      addItem(inputValue);
-      input.value = ''
-      input.classList.remove("is-invalid")
-    } else {
-      input.classList.add("is-invalid")
-    }
+    addItem(inputValue);
   }
 });
 
@@ -80,10 +66,6 @@ listArea.addEventListener("click", function (event) {
     if (!target.classList.contains("checked")) {
       addDoneItem(target.innerText)
       parentElement.remove()
-    } else {
-      // 擴充規格參考：Done 清單裡面的項目能夠被使用者還原回 Todo 清單中
-      addItem(target.innerText)
-      parentElement.remove()
     }
   }
 });
@@ -97,7 +79,7 @@ listArea.addEventListener("click", function (event) {
 // const input = document.querySelector("#new-todo");
 
 // // 資料
-// let todos = [
+// const todos = [
 //   "Hit the gym",
 //   "Read a book",
 //   "Buy eggs",
@@ -106,48 +88,35 @@ listArea.addEventListener("click", function (event) {
 // ];
 
 // for (let todo of todos) {
-//   addItem(todo);
+//   addItem(todo, list);
 // }
 
 // // 函式
-// function addItem(text) {
-//   let newItem = document.createElement("li");
-//   newItem.innerHTML = `
-//     <label for="todo">${text}</label>
-//     <i class="delete fa fa-trash"></i>
-//   `;
-//   list.appendChild(newItem);
-// }
+// function addItem(text, listName) {
+//   if (!text.length) return
+//   const newItem = document.createElement("li");
+//   let className = ''
 
-// function addDoneItem(text) {
-//   let newItem = document.createElement("li");
-//   newItem.innerHTML = `
-//     <label for="done" class="checked">${text}</label>
-//     <i class="delete fa fa-trash"></i>
-//   `;
-//   doneList.appendChild(newItem);
-// }
-
-// function createItem(input) {
-//   const inputValue = input.value;
-
-//   if (inputValue.trim().length > 0) {
-//     addItem(inputValue);
-//     input.value = ''
-//     input.classList.remove("is-invalid")
-//   } else {
-//     input.classList.add("is-invalid")
+//   if (listName === doneList) {
+//     className = 'checked'
 //   }
+//   newItem.innerHTML = `
+//     <label for="todo" class="${className}">${text}</label>
+//     <i class="delete fa fa-trash"></i>
+//   `;
+//   listName.appendChild(newItem);
 // }
 
 // // Create
 // addBtn.addEventListener("click", function () {
-//   createItem(input)
+//   const inputValue = input.value.trim();
+//   addItem(inputValue, list)
 // });
 // // 功能2：當使用者在 input#newTodo 裡按下 Enter 鍵時，可以新增 to-do。
 // input.addEventListener("keypress", function (event) {
+//   const inputValue = input.value.trim();
 //   if (event.key === "Enter") {
-//     createItem(input)
+//     addItem(inputValue, list)
 //   }
 // });
 
@@ -161,12 +130,70 @@ listArea.addEventListener("click", function (event) {
 //     parentElement.remove();
 //   } else if (target.tagName === "LABEL") {
 //     if (!target.classList.contains("checked")) {
-//       addDoneItem(target.innerText)
+//       addItem(target.innerText, doneList)
 //       parentElement.remove()
-//     } else {
-//       //擴充規格參考：Done 清單裡面的項目能夠被使用者還原回 Todo 清單中
-//       addItem(target.innerText)
-//       parentElement.remove()
+//     }
+//   }
+// });
+
+// // 階段三：利用appendChild()達成優化功能
+// // 初始變數
+// const listArea = document.querySelector("#list-area");
+// const list = document.querySelector("#my-todo");
+// const doneList = document.querySelector("#done-list");
+// const addBtn = document.querySelector("#add-btn");
+// const input = document.querySelector("#new-todo");
+
+// // 資料
+// const todos = [
+//   "Hit the gym",
+//   "Read a book",
+//   "Buy eggs",
+//   "Organize office",
+//   "Pay bills"
+// ];
+
+// for (let todo of todos) {
+//   addItem(todo);
+// }
+
+// // 函式
+// function addItem(text) {
+//   if (!text.length) return
+//   const newItem = document.createElement("li");
+//   newItem.innerHTML = `
+//     <label for="todo">${text}</label>
+//     <i class="delete fa fa-trash"></i>
+//   `;
+//   list.appendChild(newItem);
+// }
+
+// // Create
+// addBtn.addEventListener("click", function () {
+//   const inputValue = input.value.trim();
+//   addItem(inputValue);
+// });
+// // 功能2：當使用者在 input#newTodo 裡按下 Enter 鍵時，可以新增 to-do。
+// input.addEventListener("keypress", function (event) {
+//   const inputValue = input.value.trim();
+//   if (event.key === "Enter") {
+//     addItem(inputValue);
+//   }
+// });
+
+// // Delete and check
+// // 功能3：當使用者點擊完成的 todo 時，該項目會被送進 Done 清單；同時，​Done 清單中的項目也要能夠被刪除
+// listArea.addEventListener("click", function (event) {
+//   const target = event.target;
+//   const parentElement = target.parentElement;
+
+//   if (target.classList.contains("delete")) {
+//     parentElement.remove();
+//   } else if (target.tagName === "LABEL") {
+//     if (!target.classList.contains("checked")) {
+//       //利用appendChild()實現區塊間的移動
+//       doneList.appendChild(parentElement)
+//       target.classList.toggle('checked')
 //     }
 //   }
 // });

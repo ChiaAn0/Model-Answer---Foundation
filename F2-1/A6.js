@@ -9,22 +9,26 @@ function createPlayer (name, hp, mp) {
     cure: function (hp) {
       if (this.hp > 0) {
         const mpCost = hp * 2
-        if (this.mp < mpCost) {
-          return 'Low on mp.'
-        } else {
+        if (this.mp >= mpCost) {
           this.hp += hp
           this.mp -= mpCost
           return `${this.name} HP recovered! (HP=${this.hp}, MP=${this.mp})`
+        } else {
+          return `${this.name} does not have enough MP.`
         }
       } else {
-        return 'Cannot use skills in death.'
+        return `${this.name} cannot use cure after death.`
       }
     },
     attack: function (enemy) {
       if (this.hp > 0) {
         const hitPoint = Math.floor(Math.random() * 100) + 1
-        enemy.hp -= hitPoint
-        if (enemy.hp < 0) { enemy.hp = 0 }
+        // 避免 enemy.hp 是負數的考量：一般來說，如果遊戲沒有特殊設定的話，玩家應該會預期，hp 頂多扣到 0，不會變成負數。如果畫面顯示 hp 是負數，可能會讓玩家困惑。雖然規格沒有指定 hp 不能是負數，但這麼做應該滿合理的，工作上若遇到「規格沒講，但我覺得是個好主意」的情況，可以提出來跟合作夥伴討論。
+        if (enemy.hp > hitPoint) {
+          enemy.hp -= hitPoint
+        } else {
+          enemy.hp = 0
+        }
 
         let result = `${this.name} hit ${enemy.name}. ${enemy.name} lose ${hitPoint} HP. \n`
         // \n 可以換行
@@ -36,13 +40,12 @@ function createPlayer (name, hp, mp) {
         }
         return result
       } else {
-        return 'Cannot use skills in death.'
+        return `${this.name} cannot use attack after death.`
       }
     }
   }
 }
 
-// 考量：「遊戲結束」和「換邊攻擊」這類資訊，和 cure、attack 技能不太相關，所以放在底下的區塊
 console.log('====== CREATE PLAYERS ======')
 const magician = createPlayer('Magician', 30, 100)
 const warrior = createPlayer('Warrior', 100, 30)
@@ -66,36 +69,6 @@ console.log('GAME OVER.')
 
 /*
 // ======第二階段 開始======
-// 考量：將 message 獨立出來，讓技能函數區塊版面乾淨。
-const message = {
-  // common
-  useSkillInDeath: 'Cannot use skills in death.',
-
-  // cure skill
-  lowMP: 'Low on mp.',
-  // 考量：key 名稱帶有 Template，用來提醒自己需要輸入參數
-  cureSuccessTemplate: function (theCured) {
-    return `${theCured.name} HP recovered! (HP=${theCured.hp}, MP=${theCured.mp})`
-  },
-
-  // attack skill
-  attackSuccessTemplate: function (attacker, enemy, hitPoint) {
-    return `${attacker.name} hit ${enemy.name}. ${enemy.name} lose ${hitPoint} HP.`
-  },
-
-  enemyAliveTemplate: function (enemy) {
-    return `${enemy.name} is still alive. (HP=${enemy.hp})`
-  },
-
-  enemyDeadTemplate: function (enemy) {
-    return `${enemy.name} is dead.`
-  },
-
-  // game round
-  changeSides: 'Change sides \n',
-  gameOver: 'GAME OVER.'
-}
-
 function createPlayer (name, hp, mp) {
   return {
     name: name,
@@ -103,33 +76,33 @@ function createPlayer (name, hp, mp) {
     mp: mp,
     cure: function (hp) {
       if (this.hp <= 0) {
-        return message.useSkillInDeath
+        return `${this.name} cannot use cure after death.`
         // 考量：優先判斷例外狀況，然後 return。return 是為了避免繼續執行後面的程式碼。這樣可以避免層層疊疊的 if-else，增加程式碼易讀性
       }
 
       const mpCost = hp * 2
       if (this.mp < mpCost) {
-        return message.lowMP
+        return `${this.name} does not have enough MP.`
       }
 
       this.mp -= mpCost
       this.hp += hp
-      return message.cureSuccessTemplate(this)
+      return `${this.name} HP recovered! (HP=${this.hp}, MP=${this.mp})`
     },
     attack: function (enemy) {
       if (this.hp <= 0) {
-        return message.useSkillInDeath
+        return `${this.name} cannot use attack after death.`
       }
 
       const hitPoint = Math.floor(Math.random() * 100) + 1
-      let result = message.attackSuccessTemplate(this, enemy, hitPoint) + '\n'
+      let result = `${this.name} hit ${enemy.name}. ${enemy.name} lose ${hitPoint} HP.\n`
 
-      // 考量：從 0 和 enemy.hp - hitPoint 之間取最大值，一行程式碼就可以達到「enemy.hp 不會是負數」的效果
-      enemy.hp = Math.max(0, enemy.hp - hitPoint)
-      if (enemy.hp > 0) {
-        result += message.enemyAliveTemplate(enemy)
+      if (enemy.hp > hitPoint) {
+        enemy.hp -= hitPoint
+        result += `${enemy.name} is still alive. (HP=${enemy.hp})`
       } else {
-        result += message.enemyDeadTemplate(enemy)
+        enemy.hp = 0
+        result += `${enemy.name} is dead.`
       }
       return result
     }
@@ -148,12 +121,12 @@ while (warrior.hp > 0 && magician.hp > 0) {
   console.log(magician.cure(15)) // 固定補血 15 點
   // 魔法師後攻
   if (magician.hp > 0) {
-    console.log(message.changeSides)
+    console.log('Change sides \n')
     console.log(magician.attack(warrior))
     console.log(warrior.cure(15)) // 固定補血 15 點
   }
   console.log('======')
 }
-console.log(message.gameOver)
+console.log('GAME OVER.')
 // ======第二階段 結束======
 */
