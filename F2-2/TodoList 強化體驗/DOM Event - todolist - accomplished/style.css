@@ -1,3 +1,13 @@
+.content__wrapper{
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form--custom{
+  width:auto;
+}
+
 .checked {
   color: #ccc;
   text-decoration: line-through;
@@ -11,4 +21,5 @@
 
 li>label[for='todo'] {
   width: 210px;
+  margin-bottom: 0.5rem;
 }

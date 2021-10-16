@@ -1,7 +1,7 @@
 // 初始變數
 let list = document.querySelector('#my-todo')
-let addBtn = document.querySelector('#addBtn')
-let input = document.querySelector('#newTodo')
+let addBtn = document.querySelector('#add-btn')
+let input = document.querySelector('#new-todo')
 
 // 資料
 const todos = ['Hit the gym', 'Read a book', 'Buy eggs', 'Organize office', 'Pay bills']
