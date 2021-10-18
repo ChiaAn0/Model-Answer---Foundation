@@ -16,9 +16,7 @@ const paginator = document.querySelector('#paginator')
 const modeChangeSwitch = document.querySelector('#change-mode')
 
 function renderMovieList(data) {
-  // 建議: card-mode 本身不含有 CSS 內容，只是用來標記模式用，這種情況建議使用 data- 屬性，或者和 currentPage 一樣宣告為 javscript 變數會更直觀。
-  // 透過class name 渲染不同的顯示內容
-  if (dataPanel.classList.contains('card-mode')) {
+  if (dataPanel.dataset.mode === 'card-mode') {
     let rawHTML = ''
     data.forEach((item) => {
       // title, image, id
@@ -38,7 +36,7 @@ function renderMovieList(data) {
   </div>`
     })
     dataPanel.innerHTML = rawHTML
-  } else if (dataPanel.classList.contains('list-mode')) {
+  } else if (dataPanel.dataset.mode === 'list-mode') {
     let rawHTML = `<ul class="list-group col-sm-12 mb-2">`
     data.forEach((item) => {
       // title, image, id
@@ -105,18 +103,11 @@ function addToFavorite(id) {
   localStorage.setItem('favoriteMovies', JSON.stringify(list))
 }
 
-// 切換不同的顯示方式
+// 依 data-mode 切換不同的顯示方式
+// data-使用方式可參考: https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes
 function changeDisplayMode(displayMode) {
-  // 建議: 檢驗是否已經是該模式的 if 可以拉到 if else 的上面，先檢驗完再做剩下的判斷，可以減少重複的程式碼。
-  if (displayMode === 'card-mode') {
-    if (dataPanel.classList.contains(displayMode)) return
-    dataPanel.classList.remove('list-mode')
-    dataPanel.classList.add(displayMode)
-  } else if (displayMode === 'list-mode') {
-    if (dataPanel.classList.contains(displayMode)) return
-    dataPanel.classList.remove('card-mode')
-    dataPanel.classList.add(displayMode)
-  }
+  if (dataPanel.dataset.mode === displayMode) return
+  dataPanel.dataset.mode = displayMode
 }
 
 // 監聽切換事件

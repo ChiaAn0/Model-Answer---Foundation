@@ -35,8 +35,7 @@
     <div class="row">
       <!-- Search Bar -->
       <form class="form-inline col-sm-11" id="search-form">
-        <!-- 建議: for 應該要和 input id 相同（需修改教案）-->
-        <label class="sr-only" for="inlineFormInputName2">Search Keyword</label>
+        <label class="sr-only" for="search-input">Search Keyword</label>
         <input type="text" class="form-control mb-2 mr-sm-2" id="search-input" placeholder="Keyword..." />
         <button type="submit" class="btn btn-primary mb-2" id="search-submit-button">
           Search
@@ -49,7 +48,7 @@
       </div>
     </div>
     <!-- 使用 class 紀錄模式 -->
-    <div class="row card-mode" id="data-panel">
+    <div class="row" id="data-panel" data-mode="card-mode">
       <!-- Render Movie List -->
     </div>
   </div>
@@ -62,7 +61,7 @@
 
   <!-- Movie Modal -->
   <!-- 建議: aria-labelledby 應該和 modal-title 同 id（需要修改課程內容）-->
-  <div class="modal fade" id="movie-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="movie-modal" tabindex="-1" role="dialog" aria-labelledby="movie-modal-title"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
