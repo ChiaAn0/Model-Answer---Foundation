@@ -57,5 +57,5 @@ function displayMovieList (movies) {
   return htmlContent
 }
 
-//將組合好的字串傳回節點，修改內容
+// 將組合好的字串傳回節點，修改內容
 dataPanel.innerHTML = displayMovieList(movies)
