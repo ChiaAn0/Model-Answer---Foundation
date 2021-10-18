@@ -8,8 +8,9 @@ html, body {
 
 * {
   box-sizing: border-box;
+  /* 設計稿上使用 Roboto，若此處要使用設計稿上的字型 Roboto 請記得引用 google font 的設定碼於 head 中。*/
+  font-family: 'Roboto', sans-serif;
 }
-
 
 .main {
   width: 300px;
@@ -33,7 +34,7 @@ html, body {
   left: 86px;
 }
 
-.notify{
+.notify {
   width: 30px;
   height: 30px;
   background-color: white;
@@ -42,9 +43,10 @@ html, body {
   /* position */
   position: absolute;
   right: 17px;
-  top: 17px;
+  top: 18px;
 }
-.notify-point{
+
+.notify-point {
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -53,33 +55,30 @@ html, body {
   /* position */
   position: absolute;
   right: 0;
-
 }
 
-.content{
+.content {
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: white;
   height: 300px;
   border-radius: 20px;
-  padding-top: 60px;
+  padding-top: 68px;
   /* position */
   position: absolute;
   bottom: 0;
-  
 }
 
-h1{
-  font-size: 30px;
+.name {
   margin: 0 0 7px 0;
+  font-size: 30px;
   font-weight: 400;
-  
 }
 
-h2{
-  margin: 0 0 16px 0;
-  padding: 3px 8px;
+.title {
+  margin: 0;
+  padding: 3px 8px 3px 10px;
   background: black;
   color: white;
   border-radius: 30px;
@@ -87,8 +86,8 @@ h2{
   font-weight: 400;
 }
 
-.introduce{
-  margin: 10px 35px 38px 35px;
+.introduce {
+  margin: 20px 35px 38px 34px;
   font-size: 14px;
   font-weight: 400;
   line-height: 16px;
