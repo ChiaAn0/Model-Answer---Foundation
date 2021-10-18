@@ -1,8 +1,7 @@
-// 建議: 註解的「功能二」和「功能三」有點簡略或不夠貼切，例如有些東西會跨功能使用（像 filteredFriends 在搜尋和分頁都會用到），建議可以不用寫得這麼零碎，如果要寫詳細的話可以多寫一些用途或流程說明，會更能幫助學生理解。另外有關搜尋的功能一似乎沒有寫到，也可以一併補上。
 const BASE_URL = 'https://lighthouse-user-api.herokuapp.com'
 const INDEX_URL = BASE_URL + '/api/v1/users/'
 const friends = []
-// 功能三: 分頁
+// 宣告陣列以存取分頁名單或是搜尋名單
 let filteredFriends = []
 const FRIENDS_PER_PAGE = 12
 
@@ -33,7 +32,7 @@ function renderFriendList(data) {
   dataPanel.innerHTML = rawHTML
 }
 
-// 功能三: 分頁
+// 功能三: 分頁 (實作分頁器函式)
 function renderPaginator(amount) {
   const numberOfPages = Math.ceil(amount / FRIENDS_PER_PAGE)
   let rawHTML = ''
@@ -60,27 +59,26 @@ function showInfoModal(id) {
     const data = response.data
     // insert data into modal ui
     modalTitle.innerText = `${data.name} ${data.surname}`
-    // 建議: 縮排整理
     modalBody.innerHTML = `
-    <div class="row">
-            <div class="col-sm-4" id="info-modal-image">
-              <img
-                src="${data.avatar}"
-                alt="info-avatar" class="img-fluid" />
-            </div>
-            <div class="col-sm-8">
-              <p id="modal-age">age: ${data.age}</p>
-              <p id="modal-gender">gender: ${data.gender}</p>
-              <p id="modal-region">region: ${data.region}</p>
-              <p id="modal-birthday">birthday: ${data.birthday}</p>
-              <p id="modal-email">email: ${data.email}</p>            
-            </div>
-          </div>
+      <div class="row">
+        <div class="col-sm-4" id="info-modal-image">
+          <img
+            src="${data.avatar}"
+            alt="info-avatar" class="img-fluid" />
+        </div>
+        <div class="col-sm-8">
+          <p id="modal-age">age: ${data.age}</p>
+          <p id="modal-gender">gender: ${data.gender}</p>
+          <p id="modal-region">region: ${data.region}</p>
+          <p id="modal-birthday">birthday: ${data.birthday}</p>
+          <p id="modal-email">email: ${data.email}</p>            
+        </div>
+      </div>
     `
   })
 }
 
-// 功能二: 收藏 / 移除
+// 功能二: 收藏功能 (將符合id的名單加入localStorage的favoriteFriends)
 function addToFavorite(id) {
   const list = JSON.parse(localStorage.getItem('favoriteFriends')) || []
   const friend = friends.find(friend => friend.id === id)
@@ -95,12 +93,12 @@ function addToFavorite(id) {
 dataPanel.addEventListener('click', function onPanelClicked(event) {
   if (event.target.matches('.btn-show-info')) {
     showInfoModal(event.target.dataset.id)
-    // 功能二: 收藏
   } else if (event.target.matches('.btn-add-favorite')) {
     addToFavorite(Number(event.target.dataset.id))
   }
 })
 
+// 功能一: 透過監聽器搜尋社群名單
 //listen to search form
 searchForm.addEventListener('submit', function onSearchFormSubmitted(event) {
   event.preventDefault()
@@ -113,12 +111,11 @@ searchForm.addEventListener('submit', function onSearchFormSubmitted(event) {
   if (filteredFriends.length === 0) {
     return alert(`您輸入的關鍵字：${keyword} 沒有符合條件的結果`)
   }
-  // 功能三: 分頁
   renderPaginator(filteredFriends.length)
   renderFriendList(getFriendsByPage(1))
 })
 
-// 功能三: 分頁
+// 功能三: 分頁 (點擊分頁時可以顯示相對應的頁面)
 // listen to paginator
 paginator.addEventListener('click', function onPaginatorClicked(event) {
   if (event.target.tagName !== 'A') return
@@ -132,7 +129,6 @@ axios
   .get(INDEX_URL)
   .then(response => {
     friends.push(...response.data.results)
-    // 功能三: 分頁
     renderPaginator(friends.length)
     renderFriendList(getFriendsByPage(1))
   })

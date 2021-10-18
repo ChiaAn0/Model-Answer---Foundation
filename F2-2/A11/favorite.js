@@ -1,15 +1,8 @@
-/* 最愛頁面多了搜尋和分頁的功能（課程內容只有做主頁面），個人認為還算 meet expectation 的範圍，但會衍生出一些 bug，
-   例如當最愛頁面超過兩頁以上時，每次刪除第二頁以後的使用者都會跳回第一頁（需要加入記住頁碼的功能，但這已經是 A12 的範圍），
-   以及當刪除完第後面頁面的名單時，頁碼還是會維持多頁，造成按下後會顯示空白頁面的問題（需要加入渲染頁碼的步驟）。
-   但如果修正完這些 bug 又會覺得以 model answer 來說過於優化，也許可以不修正但留下請學生思考的說明，作為另一種讓學生發揮的方向。*/
-
-// 建議: 註解的「功能二」和「功能三」有點簡略或不夠貼切，例如有些東西會跨功能使用（像 filteredFriends 在搜尋和分頁都會用到），建議可以不用寫得這麼零碎，如果要寫詳細的話可以多寫一些用途或流程說明，會更能幫助學生理解。另外有關搜尋的功能一似乎沒有寫到，也可以一併補上。
-
-//功能二: 收藏 / 移除
+//功能二: 我的最愛頁
 const BASE_URL = 'https://lighthouse-user-api.herokuapp.com'
 const INDEX_URL = BASE_URL + '/api/v1/users/'
 const friends = JSON.parse(localStorage.getItem('favoriteFriends'))
-// 功能三: 分頁
+// 宣告陣列以存取分頁名單或是搜尋名單
 let filteredFriends = []
 const FRIENDS_PER_PAGE = 12
 
@@ -50,22 +43,21 @@ function showInfoModal(id) {
     const data = response.data
     // insert data into modal ui
     modalTitle.innerText = `${data.name} ${data.surname}`
-    // 建議: 縮排整理
     modalBody.innerHTML = `
     <div class="row">
-            <div class="col-sm-4" id="info-modal-image">
-              <img
-                src="${data.avatar}"
-                alt="info-avatar" class="img-fluid" />
-            </div>
-            <div class="col-sm-8">
-              <p id="modal-age">age: ${data.age}</p>
-              <p id="modal-gender">gender: ${data.gender}</p>
-              <p id="modal-region">region: ${data.region}</p>
-              <p id="modal-birthday">birthday: ${data.birthday}</p>
-              <p id="modal-email">email: ${data.email}</p>            
-            </div>
-          </div>
+      <div class="col-sm-4" id="info-modal-image">
+        <img
+          src="${data.avatar}"
+          alt="info-avatar" class="img-fluid" />
+      </div>
+      <div class="col-sm-8">
+        <p id="modal-age">age: ${data.age}</p>
+        <p id="modal-gender">gender: ${data.gender}</p>
+        <p id="modal-region">region: ${data.region}</p>
+        <p id="modal-birthday">birthday: ${data.birthday}</p>
+        <p id="modal-email">email: ${data.email}</p>            
+      </div>
+    </div>
     `
   })
 }
@@ -105,7 +97,7 @@ dataPanel.addEventListener('click', function onPanelClicked(event) {
     removeFromFavorite(Number(event.target.dataset.id))
   }
 })
-
+// 功能一: 透過監聽器搜尋社群名單
 //listen to search form
 searchForm.addEventListener('submit', function onSearchFormSubmitted(event) {
   event.preventDefault()
@@ -118,12 +110,11 @@ searchForm.addEventListener('submit', function onSearchFormSubmitted(event) {
   if (filteredFriends.length === 0) {
     return alert(`您輸入的關鍵字：${keyword} 沒有符合條件的結果`)
   }
-  // 功能三: 分頁
   renderPaginator(filteredFriends.length)
   renderFriendList(getFriendsByPage(1))
 })
 
-// 功能三: 分頁
+// 功能三: 分頁 (點擊分頁時可以顯示相對應的頁面)
 // listen to paginator
 paginator.addEventListener('click', function onPaginatorClicked(event) {
   if (event.target.tagName !== 'A') return
@@ -132,6 +123,5 @@ paginator.addEventListener('click', function onPaginatorClicked(event) {
   renderFriendList(getFriendsByPage(page))
 })
 
-// 功能三: 分頁
 renderPaginator(friends.length)
 renderFriendList(getFriendsByPage(1))
