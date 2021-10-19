@@ -104,8 +104,6 @@ function addToFavorite(id) {
 }
 
 // 依 data-mode 切換不同的顯示方式
-// 建議: 其實 data- 使用方式在 U20 裡有，建議移除參考連結，避免學生以為需要用到課外知識才能解。
-// data-使用方式可參考: https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes
 function changeDisplayMode(displayMode) {
   if (dataPanel.dataset.mode === displayMode) return
   dataPanel.dataset.mode = displayMode
@@ -113,11 +111,10 @@ function changeDisplayMode(displayMode) {
 
 // 監聽切換事件
 modeChangeSwitch.addEventListener('click', function onSwitchClicked(event) {
-  // 建議: 配合 HTML 修改判斷
-  if (event.target.matches('.card-mode')) {
+  if (event.target.matches('#card-mode-button')) {
     changeDisplayMode('card-mode')
     renderMovieList(getMoviesByPage(currentPage))
-  } else if (event.target.matches('.list-mode')) {
+  } else if (event.target.matches('#list-mode-button')) {
     changeDisplayMode('list-mode')
     renderMovieList(getMoviesByPage(currentPage))
   }
