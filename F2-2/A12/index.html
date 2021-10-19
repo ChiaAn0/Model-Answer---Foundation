@@ -43,6 +43,7 @@
       </form>
       <!-- 新增切換按鈕 -->
       <div class="col-sm-1" id="change-mode">
+        <!-- 建議: 此處的 mode 也和 class 無關，而是和按鈕本身幾乎等義，這種狀況建議可以改為 id 會更直觀，例如 card-mode-button 之類的。-->
         <i class="fa fa-th mr-sm-2 card-mode" aria-hidden="true"></i>
         <i class="fa fa-bars list-mode" aria-hidden="true"></i>
       </div>
@@ -60,7 +61,6 @@
   </nav>
 
   <!-- Movie Modal -->
-  <!-- 建議: aria-labelledby 應該和 modal-title 同 id（需要修改課程內容）-->
   <div class="modal fade" id="movie-modal" tabindex="-1" role="dialog" aria-labelledby="movie-modal-title"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
