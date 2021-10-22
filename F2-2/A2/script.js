@@ -17,14 +17,13 @@ button.addEventListener('click', e => {
 
       // create user template
       let div = document.createElement('div')
+      div.classList.add("user-item")
       let htmlContent = `
-          <div class="user-item">
-            <h3>${user.name}</h3>
-            <img src="${user.avatar}" style="width: 150px;">
-            <small>${user.email}</small>
-          </div>
-        `
-      console.log(htmlContent)
+        <h3>${user.name}</h3>
+        <img src="${user.avatar}">
+        <small>${user.email}</small>
+      `
+      console.log(div.outerHTML)
       div.innerHTML = htmlContent
       panel.append(div)
     }  
