@@ -21,7 +21,7 @@ function renderMovieList(data) {
           <h5 class="card-title">${item.title}</h5>
         </div>
         <div class="card-footer">
-          <button class="btn btn-primary btn-show-movie" data-toggle="modal" data-target="#movie-modal" data-id="${
+          <button class="btn btn-primary btn-show-movie" data-bs-toggle="modal" data-bs-target="#movie-modal" data-id="${
             item.id
           }">More</button>
           <button class="btn btn-danger btn-remove-favorite" data-id="${
