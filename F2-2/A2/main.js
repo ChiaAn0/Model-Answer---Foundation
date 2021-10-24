@@ -1,31 +1,31 @@
 const panel = document.querySelector('#data-panel')
 const button = document.querySelector('button')
-const url = 'https://randomuser.me/api?gender=female&results=3'
+const userNumber = 3
+const url = `https://randomuser.me/api?gender=female&results=${userNumber}`
 
 button.addEventListener('click', e => {
-  axios.get(url).then(response => {
-    // get data
-    console.log(response)
-    for (let i = 0; i < 3; i++) {
-      const data = response.data.results[i]
-      const user = {
-        name: `${data.name.first} ${data.name.last}`,
-        email: data.email,
-        avatar: data.picture.large
-      }
-      console.log(user)
+  axios.get(url)
+    .then(response => {
+      for (let i = 0; i < userNumber; i++) {
+        // 回傳的資料較為雜亂，先整理成比較整齊的格式
+        const data = response.data.results[i]
+        const user = {
+          name: `${data.name.first} ${data.name.last}`,
+          email: data.email,
+          avatar: data.picture.large
+        }
 
-      // create user template
-      let div = document.createElement('div')
-      div.classList.add("user-item")
-      let htmlContent = `
+        // 把資料加到畫面上
+        const div = document.createElement('div')
+        div.classList.add("user-item")
+        const htmlContent = `
         <h3>${user.name}</h3>
         <img src="${user.avatar}">
         <small>${user.email}</small>
       `
-      console.log(div.outerHTML)
-      div.innerHTML = htmlContent
-      panel.append(div)
-    }
-  })
+        div.innerHTML = htmlContent
+        panel.append(div)
+      }
+    })
+    .catch(error => console.log(error))
 })
