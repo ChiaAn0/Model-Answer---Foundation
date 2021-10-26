@@ -64,8 +64,6 @@ function showMovieModal(id) {
 }
 
 function removeFromFavorite(id) {
-  if (!movies) return
-
   const movieIndex = movies.findIndex((movie) => movie.id === id)
   if (movieIndex === -1) return
 
