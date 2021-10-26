@@ -2,7 +2,7 @@ const BASE_URL = 'https://movie-list.alphacamp.io'
 const INDEX_URL = BASE_URL + '/api/v1/movies/'
 const POSTER_URL = BASE_URL + '/posters/'
 
-const movies = JSON.parse(localStorage.getItem('favoriteMovies')) //收藏清單
+const movies = JSON.parse(localStorage.getItem('favoriteMovies')) || [] // 收藏清單
 
 const dataPanel = document.querySelector('#data-panel')
 
@@ -11,26 +11,36 @@ function renderMovieList(data) {
 
   data.forEach((item) => {
     // title, image, id
-    rawHTML += `<div class="col-sm-3">
-    <div class="mb-2">
-      <div class="card">
-        <img src="${
-          POSTER_URL + item.image
-        }" class="card-img-top" alt="Movie Poster">
-        <div class="card-body">
-          <h5 class="card-title">${item.title}</h5>
-        </div>
-        <div class="card-footer">
-          <button class="btn btn-primary btn-show-movie" data-bs-toggle="modal" data-bs-target="#movie-modal" data-id="${
-            item.id
-          }">More</button>
-          <button class="btn btn-danger btn-remove-favorite" data-id="${
-            item.id
-          }">X</button>
+    const imageUrl = POSTER_URL + item.image
+
+    rawHTML += `
+      <div class="col-sm-3">
+        <div class="mb-2">
+          <div class="card">
+            <img src="${imageUrl}" class="card-img-top" alt="Movie Poster" />
+            <div class="card-body">
+              <h5 class="card-title">${item.title}</h5>
+            </div>
+            <div class="card-footer">
+              <button
+                class="btn btn-primary btn-show-movie"
+                data-bs-toggle="modal"
+                data-bs-target="#movie-modal"
+                data-id="${item.id}"
+              >
+                More
+              </button>
+              <button
+                class="btn btn-danger btn-remove-favorite"
+                data-id="${item.id}"
+              >
+                X
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>`
+    `
   })
 
   dataPanel.innerHTML = rawHTML
@@ -44,18 +54,16 @@ function showMovieModal(id) {
 
   axios.get(INDEX_URL + id).then((response) => {
     const data = response.data.results
+    const imageUrl = POSTER_URL + data.image
+
     modalTitle.innerText = data.title
     modalDate.innerText = 'Release date: ' + data.release_date
     modalDescription.innerText = data.description
-    modalImage.innerHTML = `<img src="${
-      POSTER_URL + data.image
-    }" alt="movie-poster" class="img-fluid">`
+    modalImage.innerHTML = `<img src="${imageUrl}" alt="movie-poster" class="img-fluid">`
   })
 }
 
 function removeFromFavorite(id) {
-  if (!movies) return
-
   const movieIndex = movies.findIndex((movie) => movie.id === id)
   if (movieIndex === -1) return
 
@@ -64,7 +72,7 @@ function removeFromFavorite(id) {
   renderMovieList(movies)
 }
 
-//listen to data panel
+// listen to data panel
 dataPanel.addEventListener('click', function onPanelClicked(event) {
   if (event.target.matches('.btn-show-movie')) {
     showMovieModal(Number(event.target.dataset.id))

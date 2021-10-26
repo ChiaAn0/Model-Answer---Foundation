@@ -107,7 +107,7 @@ dataPanel.addEventListener('click', function onPanelClicked(event) {
   }
 })
 
-//listen to search form
+// listen to search form
 searchForm.addEventListener('submit', function onSearchFormSubmitted(event) {
   event.preventDefault()
   const keyword = searchInput.value.trim().toLowerCase()
