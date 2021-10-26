@@ -77,14 +77,12 @@ function showMovieModal(id) {
   // send request to show api
   axios.get(INDEX_URL + id).then((response) => {
     const data = response.data.results
-
+    const imageUrl = POSTER_URL + data.image
     // insert data into modal ui
     modalTitle.innerText = data.title
     modalDate.innerText = 'Release date: ' + data.release_date
     modalDescription.innerText = data.description
-    modalImage.innerHTML = `<img src="${
-      POSTER_URL + data.image
-    }" alt="movie-poster" class="img-fluid">`
+    modalImage.innerHTML = `<img src="${imageUrl}" alt="movie-poster" class="img-fluid">`
   })
 }
 
