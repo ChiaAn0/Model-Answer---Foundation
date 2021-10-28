@@ -4,6 +4,6 @@ const index = require("./modules/index")
 const restaurants = require("./modules/restaurants")
 
 router.use("/", index)
-router.use("/restaurants", restaurants)
+router.use("/", restaurants)
 
 module.exports = router

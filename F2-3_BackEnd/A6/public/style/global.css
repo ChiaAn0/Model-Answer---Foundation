@@ -2,6 +2,10 @@ header {
   overflow: hidden;
 }
 
+.navbar{
+  padding:0.5rem 1rem;
+}
+
 .navbar .navbar-brand {
   color: #4592af;
 }
@@ -77,6 +81,23 @@ header {
   text-align: center;
   font-size: 3rem;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.link-no-underline{
+  text-decoration: none;
+}
+
+@media screen and (min-width: 576px) {
+  .card-masonry{
+    column-count: 3;
+    column-gap: 1.25rem;
+    orphans: 1;
+    widows: 1;
+  }
+  .card-masonry .card{
+    display: inline-block;
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 992px) {
