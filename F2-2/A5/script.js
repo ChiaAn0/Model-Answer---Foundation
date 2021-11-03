@@ -1,4 +1,3 @@
-'use strict'
 // ======= default data =======
 const menu = document.querySelector("#menu");
 const cart = document.querySelector("#cart");
@@ -50,7 +49,7 @@ function displayMenu (products) {
           <div class="card-body">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">${product.price}</p>
-            <button class="btn btn-primary order-btn" id="${product.id}">加入購物車</button>
+            <a href="#" class="btn btn-primary order-btn" id="${product.id}">加入購物車</a>
           </div>
         </div>
       </div>
