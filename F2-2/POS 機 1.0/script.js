@@ -1,8 +1,8 @@
 // ======= default data =======
 const menu = document.querySelector("#menu");
 const cart = document.querySelector("#cart");
-const totalAmount = document.querySelector("#total-amount");
-const button = document.querySelector("#submit-button");
+const totalAmountBox = document.querySelector("#total-amount");
+const submitButton = document.querySelector("#submit-button");
 
 // 菜單資料
 const  productData = [
