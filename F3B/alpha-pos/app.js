@@ -57,18 +57,18 @@ AlphaPos.prototype.getCheckedValue = function (inputName) {
 AlphaPos.prototype.addDrink = function (drink) {
   let orderListsCard = `
     <div class="card mb-3">
-    <div class="card-body pt-3 pr-3">
-      <div class="text-right">
-        <span data-alpha-pos="delete-drink">×</span>
+      <div class="card-body">
+        <div class="text-end">
+          <span data-alpha-pos="delete-drink">×</span>
+        </div>
+        <h6 class="card-title mb-1">${drink.name}</h6>
+        <div class="card-text">${drink.ice}</div>
+        <div class="card-text">${drink.sugar}</div>
       </div>
-      <h6 class="card-title mb-1">${drink.name}</h6>
-      <div class="card-text">${drink.ice}</div>
-      <div class="card-text">${drink.sugar}</div>
+      <div class="card-footer text-end py-2">
+        <div class="card-text text-muted">$ <span data-drink-price>${drink.price()}</span></div>
+      </div>
     </div>
-    <div class="card-footer text-right py-2">
-      <div class="card-text text-muted">$ <span data-drink-price>${drink.price()}</span></div>
-    </div>
-  </div>
   `
 
   orderLists.insertAdjacentHTML('afterbegin', orderListsCard)
